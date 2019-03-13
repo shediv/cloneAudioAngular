@@ -12,4 +12,12 @@
   </div>
 </div>
 <audio #audio class="video"></audio>
+<div class="row">
+  <ul class="">
+      <li *ngFor="let audioFile of userAudios.userDetails.audios">
+        <span class="badge">{{audioFile.fieldname}}</span> {{audioFile.path}}
+      </li>
+    </ul>
+</div>
+
 

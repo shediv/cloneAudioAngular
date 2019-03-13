@@ -14,6 +14,8 @@ export class RecordRTCComponent implements AfterViewInit {
     loading: boolean;
     submitting: boolean;
     error: boolean;
+    userData: any;
+    userAudios: any;
 
     // Form submission
     submitEventObj: 'Object';
@@ -23,6 +25,11 @@ export class RecordRTCComponent implements AfterViewInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private api: ApiService) { }
+
+    
+    ngOnInit() {
+      this._getUserAudios();
+    }        
 
     ngAfterViewInit() {
         // set the initial state of the audio
@@ -101,6 +108,26 @@ export class RecordRTCComponent implements AfterViewInit {
     private _handleSubmitError(err) {
       this.submitting = false;
       this.error = true;
+    }
+
+    private _getUserAudios() {
+      // GET event by ID
+      this.userData = this.api
+        .getUserAudios$()
+        .subscribe(
+          res => {
+            this.userAudios =  res;
+            // this._setPageTitle(this.event.title);
+            // this.loading = false;
+            // this.eventPast = this.utils.eventPast(this.event.endDatetime);
+          },
+          err => {
+            console.error(err);
+            // this.loading = false;
+            // this.error = true;
+            // this._setPageTitle('Event Details');
+          }
+        );
     }
 
 }

@@ -153,6 +153,17 @@ export class ApiService {
       );
   }
 
+  // GET all audios for User
+  getUserAudios$(): Observable<AuthenticationModel[]> {
+    return this.http
+      .get<AuthenticationModel[]>(`${ENV.BASE_API}userInfo`, {
+        headers: new HttpHeaders().set('Authorization', this._authToken)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || 'Error: Unable to complete request.';
     if (err.message && err.message.indexOf('No JWT present') > -1) {

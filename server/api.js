@@ -78,9 +78,21 @@ module.exports = function(app, config) {
     }
   });
 
+  // GET userInfo API
+  app.get('/api/userInfo', auth, (req, res) => {
+    if (!req.payload._id) {
+	    res.status(401).json({
+	      message : 'Not Authorised'
+	    });
+	  } else {
+      User.findOne({ _id : req.payload._id}, { audios : 1 }).exec(function(err, userDetails) {
+        return res.status(200).json({ userDetails: userDetails });		       	
+      });
+    }
+  });
+
   //Upload a audio file
   app.post('/api/uploadfile', auth, upload.single('file'), (req, res, next) => {
-    console.log("sasdasdasda === ");
     if (!req.payload._id) {
 	    res.status(401).json({
 	      message : 'Not Authorised'
@@ -90,7 +102,7 @@ module.exports = function(app, config) {
       if(!file){
         return res.status(400).send({ error: 'Please upload a file' });  
       }
-      
+
       User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
       return res.status(200).send({message: file });
     }
