@@ -5,14 +5,19 @@ import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
 // Page components
 import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
 import { RecordRTCComponent } from './pages/record/record-rtc.component';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   component: HomeComponent,
+  // },
   {
     path: '',
-    component: HomeComponent,
+    component: LoginComponent,
   },
   {
     path: 'record',
@@ -21,32 +26,32 @@ const routes: Routes = [
       AuthGuard
     ]
   },
-  {
-    path: 'callback',
-    component: CallbackComponent
-  },
-  {
-    path: 'event/:id',
-    loadChildren: './pages/event/event.module#EventModule',
-    canActivate: [
-      AuthGuard
-    ]
-  },
-  {
-    path: 'my-rsvps',
-    component: MyRsvpsComponent,
-    canActivate: [
-      AuthGuard
-    ]
-  },
-  {
-    path: 'admin',
-    loadChildren: './pages/admin/admin.module#AdminModule',
-    canActivate: [
-      AuthGuard,
-      AdminGuard
-    ]
-  },
+  // {
+  //   path: 'callback',
+  //   component: CallbackComponent
+  // },
+  // {
+  //   path: 'event/:id',
+  //   loadChildren: './pages/event/event.module#EventModule',
+  //   canActivate: [
+  //     AuthGuard
+  //   ]
+  // },
+  // {
+  //   path: 'my-rsvps',
+  //   component: MyRsvpsComponent,
+  //   canActivate: [
+  //     AuthGuard
+  //   ]
+  // },
+  // {
+  //   path: 'admin',
+  //   loadChildren: './pages/admin/admin.module#AdminModule',
+  //   canActivate: [
+  //     AuthGuard,
+  //     AdminGuard
+  //   ]
+  // },
   {
     path: '**',
     redirectTo: '',

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subscription, of, timer } from 'rxjs';
+import { throwError as ObservableThrowError, BehaviorSubject, Subscription, of, timer, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 import { ENV } from './../core/env.config';
+import { EventModel, AuthenticationModel } from '../core/models/event.model';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +32,7 @@ export class AuthService {
   refreshSub: Subscription;
   routeSub: Subscription;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     // If app auth token is not expired, request new token
     if (JSON.parse(localStorage.getItem('expires_at')) > Date.now()) {
       this.renewToken();
@@ -43,8 +46,20 @@ export class AuthService {
   }
 
   login() {
+    debugger;
     // Auth0 authorize request
-    this._auth0.authorize();
+    //this._auth0.authorize();
+  }
+
+  // Sign in User
+  signinUser$(data: Object): Observable<AuthenticationModel> {
+    return this.http
+      .post<AuthenticationModel>(`${ENV.BASE_API}user/signin`, data, {
+          headers: new HttpHeaders().set('Content-Type', 'application/json')
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
   }
 
   handleAuth() {
@@ -124,20 +139,35 @@ export class AuthService {
     localStorage.removeItem('expires_at');
   }
 
+  // logout() {
+  //   // Remove data from localStorage
+  //   this._clearExpiration();
+  //   this._clearRedirect();
+  //   // End Auth0 authentication session
+  //   this._auth0.logout({
+  //     clientId: AUTH_CONFIG.CLIENT_ID,
+  //     returnTo: ENV.BASE_URI
+  //   });
+  // }
+
   logout() {
     // Remove data from localStorage
-    this._clearExpiration();
-    this._clearRedirect();
-    // End Auth0 authentication session
-    this._auth0.logout({
-      clientId: AUTH_CONFIG.CLIENT_ID,
-      returnTo: ENV.BASE_URI
-    });
+    localStorage.removeItem('token');
+    this.loggedIn$.next(false);
+    this.loggedIn = false;
+    this.router.navigate(['']);
   }
 
   get tokenValid(): boolean {
     // Check if current time is past access token's expiration
-    return Date.now() < JSON.parse(localStorage.getItem('expires_at'));
+    //return Date.now() < JSON.parse(localStorage.getItem('expires_at'));
+    
+    //My code
+    if(localStorage.getItem('token')){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   renewToken() {
@@ -181,6 +211,14 @@ export class AuthService {
     if (this.refreshSub) {
       this.refreshSub.unsubscribe();
     }
+  }
+
+  private _handleError(err: HttpErrorResponse | any): Observable<any> {
+    const errorMsg = err.message || 'Error: Unable to complete request.';
+    if (err.message && err.message.indexOf('No JWT present') > -1) {
+      //this.auth.login();
+    }
+    return ObservableThrowError(errorMsg);
   }
 
 }

@@ -22,6 +22,11 @@ export class AuthGuard implements CanActivate {
     if (this.auth.tokenValid && this.auth.loggedIn) {
       return true;
     }
+
+    //My code
+    if (this.auth.tokenValid) {
+      return true;
+    }
   }
 
 }

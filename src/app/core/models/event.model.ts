@@ -23,4 +23,10 @@ class FormEventModel {
   ) { }
 }
 
-export { EventModel, FormEventModel };
+class AuthenticationModel {
+  constructor(
+    public token: string
+  ) { }
+}
+
+export { EventModel, FormEventModel, AuthenticationModel };

@@ -4,7 +4,7 @@ import { AuthService } from './../auth/auth.service';
 import { throwError as ObservableThrowError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ENV } from './env.config';
-import { EventModel } from './models/event.model';
+import { EventModel, AuthenticationModel } from './models/event.model';
 import { RsvpModel } from './models/rsvp.model';
 
 @Injectable()
@@ -131,6 +131,18 @@ export class ApiService {
     return this.http
       .post<EventModel>(`${ENV.BASE_API}uploadfile`, file, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  // Sign in User
+  signinUser$(data: Object): Observable<AuthenticationModel> {
+    //debugger;
+    return this.http
+      .post<AuthenticationModel>(`${ENV.BASE_API}user/signin`, data, {
+          headers: new HttpHeaders().set('Content-Type', 'application/json')
       })
       .pipe(
         catchError((error) => this._handleError(error))
