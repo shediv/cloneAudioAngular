@@ -17,7 +17,8 @@ const userSchema = new Schema({
   lastName: { type: String, required: true },
   isActive: { type: Boolean},
   hash: { type: String, required: true },
-  salt: { type: String, required: true }
+  salt: { type: String, required: true },
+  audios: { type: Array }
 });
 
 userSchema.methods.setPassword = function(password) {  

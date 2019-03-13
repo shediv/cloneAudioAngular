@@ -18,6 +18,10 @@ export class ApiService {
     return `Bearer ${this.auth.accessToken}`;
   }
 
+  private get _authToken(): string {
+    return `Bearer ${localStorage.getItem('token')}`;
+  }
+
   // GET list of public, future events
   getEvents$(): Observable<EventModel[]> {
     return this.http
@@ -130,7 +134,7 @@ export class ApiService {
   uploadAudio$(file: Object): Observable<EventModel> {
     return this.http
       .post<EventModel>(`${ENV.BASE_API}uploadfile`, file, {
-        headers: new HttpHeaders().set('Authorization', this._authHeader)
+        headers: new HttpHeaders().set('Authorization', this._authToken)
       })
       .pipe(
         catchError((error) => this._handleError(error))
