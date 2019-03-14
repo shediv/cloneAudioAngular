@@ -32,8 +32,8 @@
       <tr *ngFor="let audioFile of userAudios.userDetails.audios">        
         <td>
           <audio controls>
-            <source src="http://localhost:8083/{{audioFile.path}}" type="audio/ogg">
-            <source src="http://localhost:8083/{{audioFile.path}}" type="audio/wav">
+            <source src="http://13.250.77.198:8083/{{audioFile.path}}" type="audio/ogg">
+            <source src="http://13.250.77.198:8083/{{audioFile.path}}" type="audio/wav">
           </audio>
         </td>
         <td>{{audioFile.filename}}</td>
