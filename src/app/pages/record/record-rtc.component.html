@@ -25,19 +25,19 @@
   
   <div class="jumbotron">
     <h3>List of Recorded Audios</h3>
-    <table class="table table-hover">
+    <table class="table">
       <tr>
         <th>Audio Number</th>
         <th>Audio FIle</th>
       </tr>
-      <tr *ngFor="let audioFile of userAudios.userDetails.audios">
-        <td>{{audioFile.filename}}</td>
+      <tr *ngFor="let audioFile of userAudios.userDetails.audios">        
         <td>
           <audio controls>
             <source src="http://localhost:8083/{{audioFile.path}}" type="audio/ogg">
             <source src="http://localhost:8083/{{audioFile.path}}" type="audio/wav">
           </audio>
         </td>
+        <td>{{audioFile.filename}}</td>
       </tr>
     </table>
   </div>

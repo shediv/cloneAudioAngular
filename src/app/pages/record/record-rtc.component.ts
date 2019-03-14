@@ -72,12 +72,12 @@ export class RecordRTCComponent implements AfterViewInit {
       this.stream = stream;
       this.recordRTC = RecordRTC(stream, {
           type: 'audio',
-          timeSlice: 1000,
-          mimeType: 'audio/wav',
-          audioBitsPerSecond: 128000,
-          bitsPerSecond: 128000,
-          sampleRate: 96000,
-          numberOfAudioChannels: 1,
+          //timeSlice: 1000,
+          mimeType: 'audio/webm',
+          // audioBitsPerSecond: 128000,
+          // bitsPerSecond: 128000,
+          // sampleRate: 96000,
+          // numberOfAudioChannels: 2,
           recorderType: RecordRTC.StereoAudioRecorder
       });
       this.recordRTC.startRecording();
