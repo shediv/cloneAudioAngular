@@ -39,7 +39,7 @@ export class RecordRTCComponent implements AfterViewInit {
         audio.autoplay = false;
     }
 
-    startRecording(id: number) {    
+    startRecording() {    
       navigator.mediaDevices
         .getUserMedia({audio:true})
         .then(this.successCallback.bind(this), this.errorCallback.bind(this));
