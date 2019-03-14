@@ -7,13 +7,19 @@
       <div class="panel-body">
           <button md-raised-button color="primary" (click)="startRecording()"> Record </button>
           <button md-raised-button color="primary" (click)="stopRecording()"> Stop</button>
-          <button md-raised-button color="primary" (click)="uploadAudio()">Upload</button>
+          <button md-raised-button color="primary" (click)="uploadAudio(userTextForAudio[0].id)">Upload</button>
           <button md-raised-button color="primary" (click)="download()"> Download</button>
       </div>
       <div class="panel-body">
           <br>
           <audio #audio class="video"></audio>
       </div>
+
+      <div class="panel-body">
+          <br>
+          <p>{{userTextForAudio[0].text}}</p>
+      </div>
+
     </div>
   </div>
   

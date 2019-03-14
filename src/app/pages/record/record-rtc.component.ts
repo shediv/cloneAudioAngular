@@ -16,6 +16,29 @@ export class RecordRTCComponent implements AfterViewInit {
     error: boolean;
     userData: any;
     userAudios: any;
+    audioTextFiles = [
+      {
+        id: 1,
+        text: 'This is demo text 1'
+      },
+      {
+          id: 2,
+          text: 'This is demo text 2'
+      },
+      {
+          id: 3,
+          text: 'This is demo text 3'
+      },
+      {
+          id: 4,
+          text: 'This is demo text 4'
+      },
+      {
+          id: 5,
+          text: 'This is demo text 5'
+      }
+    ];
+    userTextForAudio: any;
 
     // Form submission
     submitEventObj: 'Object';
@@ -39,7 +62,7 @@ export class RecordRTCComponent implements AfterViewInit {
         audio.autoplay = false;
     }
 
-    startRecording() {    
+    startRecording() {   
       navigator.mediaDevices
         .getUserMedia({audio:true})
         .then(this.successCallback.bind(this), this.errorCallback.bind(this));
@@ -84,14 +107,14 @@ export class RecordRTCComponent implements AfterViewInit {
       this.recordRTC.save('audio.wav');
     }
 
-    uploadAudio() {
+    uploadAudio(id: number) {
       let recordRTC = this.recordRTC;
       var recordedBlob = recordRTC.getBlob();
       var fd = new FormData();
       fd.append('file', recordedBlob);
       //this.submitEventObj;
       this.api
-      .uploadAudio$(fd)
+      .uploadAudio$(fd, id)
       .subscribe(
         data => this._handleSubmitSuccess(data),
         err => this._handleSubmitError(err)
@@ -101,6 +124,8 @@ export class RecordRTCComponent implements AfterViewInit {
     private _handleSubmitSuccess(res) {
       this.error = false;
       this.submitting = false;
+      this._getUserAudios();
+      // To Do add window reload...
       // Redirect to event detail
       this.router.navigate(['/record']);
     }
@@ -117,6 +142,9 @@ export class RecordRTCComponent implements AfterViewInit {
         .subscribe(
           res => {
             this.userAudios =  res;
+            //this.userTextForAudio =  this._getNextTextForAudio(this.userAudios, this.audioTextFiles);
+            //debugger;
+            this.userTextForAudio =  this.audioTextFiles;
             // this._setPageTitle(this.event.title);
             // this.loading = false;
             // this.eventPast = this.utils.eventPast(this.event.endDatetime);
@@ -128,6 +156,15 @@ export class RecordRTCComponent implements AfterViewInit {
             // this._setPageTitle('Event Details');
           }
         );
+    }
+
+
+    private _getNextTextForAudio(firstArray, secondArray) {
+      return firstArray.filter(firstArrayItem =>
+        !secondArray.some(
+          secondArrayItem => firstArrayItem.audioTextId === secondArrayItem.id
+        )
+      );
     }
 
 }

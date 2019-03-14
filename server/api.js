@@ -92,17 +92,17 @@ module.exports = function(app, config) {
   });
 
   //Upload a audio file
-  app.post('/api/uploadfile', auth, upload.single('file'), (req, res, next) => {
+  app.post('/api/uploadfile/:audioTextId', auth, upload.single('file'), (req, res, next) => {
     if (!req.payload._id) {
 	    res.status(401).json({
 	      message : 'Not Authorised'
 	    });
 	  } else {
-      const file = req.file
+      let file = req.file
       if(!file){
         return res.status(400).send({ error: 'Please upload a file' });  
       }
-
+      file.audioTextId = parseInt(req.params.audioTextId);
       User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
       return res.status(200).send({message: file });
     }
