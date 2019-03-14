@@ -60,6 +60,11 @@ if (process.env.NODE_ENV !== 'dev') {
   app.use('/', express.static(path.join(__dirname, './dist')));
 }
 
+app.get("/uploads/:filename", (req, res) => {
+  res.sendFile(path.join(__dirname, "./uploads/", req.params.filename));
+});
+
+
 /*
  |--------------------------------------
  | Routes
