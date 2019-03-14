@@ -10,6 +10,8 @@ var passport = require('passport');
 const Event = require('./models/Event');
 const Rsvp = require('./models/Rsvp');
 const User = require('./models/User');
+const AudioTextFile = require('./models/audioTextFiles');
+var async = require('async');
 
 // [SH] Bring in the Passport config after model is defined
 require('./passport');
@@ -85,8 +87,26 @@ module.exports = function(app, config) {
 	      message : 'Not Authorised'
 	    });
 	  } else {
-      User.findOne({ _id : req.payload._id}, { audios : 1 }).exec(function(err, userDetails) {
-        return res.status(200).json({ userDetails: userDetails });		       	
+      async.parallel({
+        userDetails: function(callbackInner) {
+          User.findOne({ _id : req.payload._id}, { audios : 1 }).lean().exec(function(errUser, userDetails){
+                callbackInner(errUser, userDetails);
+            });
+        },
+        audioTextFiles: function(callbackInner) {
+          AudioTextFile.find({}).lean().exec(function(errAudText, audioTexts){                                                                                                                            
+                callbackInner(errAudText, audioTexts);
+            });
+        }
+      },
+      function(err, results) {
+        //Filter the text user already recorded audio for
+        results.audioTextFiles = results.audioTextFiles.filter(firstArrayItem =>
+          !results.userDetails.audios.some(
+            secondArrayItem => firstArrayItem.id === secondArrayItem.audioTextId
+          )
+        );
+        return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
       });
     }
   });

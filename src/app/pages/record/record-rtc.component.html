@@ -2,24 +2,23 @@
   <div class="jumbotron">
     <div class="panel panel-primary">
       <div class="panel-heading">
-          <strong>Record Audio</strong>
+          <strong>Record Audio By Reading Below Text</strong>
       </div>
       <div class="panel-body">
-          <button md-raised-button color="primary" (click)="startRecording()"> Record </button>
-          <button md-raised-button color="primary" (click)="stopRecording()"> Stop</button>
-          <button md-raised-button color="primary" (click)="uploadAudio(userTextForAudio[0].id)">Upload</button>
-          <button md-raised-button color="primary" (click)="download()"> Download</button>
+          <button class="btn btn-success" (click)="startRecording()"> Record </button>
+          <button class="btn btn-danger" (click)="stopRecording()"> Stop</button>
+          <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0].id)">Upload</button>
+          <button class="btn btn-primary" (click)="download()"> Download</button>
       </div>
-      <div class="panel-body">
-          <br>
-          <audio #audio class="video"></audio>
-      </div>
-
       <div class="panel-body">
           <br>
           <p>{{userTextForAudio[0].text}}</p>
       </div>
-
+      <div class="panel-body">
+          <br>
+          <h5>Play recorded text</h5>
+          <audio #audio class="video"></audio>
+      </div>      
     </div>
   </div>
   

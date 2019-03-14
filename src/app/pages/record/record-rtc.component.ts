@@ -13,31 +13,10 @@ export class RecordRTCComponent implements AfterViewInit {
     private recordRTC: any;
     loading: boolean;
     submitting: boolean;
+    uploading: boolean;
     error: boolean;
     userData: any;
-    userAudios: any;
-    audioTextFiles = [
-      {
-        id: 1,
-        text: 'This is demo text 1'
-      },
-      {
-          id: 2,
-          text: 'This is demo text 2'
-      },
-      {
-          id: 3,
-          text: 'This is demo text 3'
-      },
-      {
-          id: 4,
-          text: 'This is demo text 4'
-      },
-      {
-          id: 5,
-          text: 'This is demo text 5'
-      }
-    ];
+    userAudios: any;    
     userTextForAudio: any;
 
     // Form submission
@@ -51,6 +30,7 @@ export class RecordRTCComponent implements AfterViewInit {
 
     
     ngOnInit() {
+      this.uploading = false;
       this._getUserAudios();
     }        
 
@@ -108,6 +88,7 @@ export class RecordRTCComponent implements AfterViewInit {
     }
 
     uploadAudio(id: number) {
+      this.uploading = true;
       let recordRTC = this.recordRTC;
       var recordedBlob = recordRTC.getBlob();
       var fd = new FormData();
@@ -124,6 +105,8 @@ export class RecordRTCComponent implements AfterViewInit {
     private _handleSubmitSuccess(res) {
       this.error = false;
       this.submitting = false;
+      this.uploading = false;
+      alert('Audio Uploaded On server...!!')
       this._getUserAudios();
       // To Do add window reload...
       // Redirect to event detail
@@ -142,29 +125,16 @@ export class RecordRTCComponent implements AfterViewInit {
         .subscribe(
           res => {
             this.userAudios =  res;
-            //this.userTextForAudio =  this._getNextTextForAudio(this.userAudios, this.audioTextFiles);
+            this.userTextForAudio = this.userAudios.audioTextFiles;
             //debugger;
-            this.userTextForAudio =  this.audioTextFiles;
-            // this._setPageTitle(this.event.title);
-            // this.loading = false;
-            // this.eventPast = this.utils.eventPast(this.event.endDatetime);
+            //this.userTextForAudio =  this.audioTextFiles;
           },
           err => {
             console.error(err);
             // this.loading = false;
             // this.error = true;
-            // this._setPageTitle('Event Details');
           }
         );
-    }
-
-
-    private _getNextTextForAudio(firstArray, secondArray) {
-      return firstArray.filter(firstArrayItem =>
-        !secondArray.some(
-          secondArrayItem => firstArrayItem.audioTextId === secondArrayItem.id
-        )
-      );
     }
 
 }
