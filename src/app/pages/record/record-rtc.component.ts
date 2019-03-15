@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../core/api.service';
+import { AUTH_CONFIG } from '../../auth/auth.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import * as RecordRTC from 'recordrtc';
@@ -18,6 +19,7 @@ export class RecordRTCComponent implements AfterViewInit {
     userData: any;
     userAudios: any;    
     userTextForAudio: any;
+    uploadUrl: string;
 
     // Form submission
     submitEventObj: 'Object';
@@ -31,6 +33,7 @@ export class RecordRTCComponent implements AfterViewInit {
     
     ngOnInit() {
       this.uploading = false;
+      this.uploadUrl = `${AUTH_CONFIG.UPLOADURL}`;
       this._getUserAudios();
     }        
 

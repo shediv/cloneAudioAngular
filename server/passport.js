@@ -14,14 +14,14 @@ passport.use(new LocalStrategy({
       // Return if user not found in database
       if (!user) {
         return done(null, false, {
-          message: config.constUserWasNotFound
+          message: 'Username not found..!!'
         });
       }
       
       // Return if password is wrong
       if (!user.validPassword(password)) {
         return done(null, false, {
-          message: constants.constUserPasswordIsNotCorrect
+          message: 'Please provide correct password..!!'
         });
       }
       // If credentials are correct, return the user object

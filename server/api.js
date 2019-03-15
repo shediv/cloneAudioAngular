@@ -100,13 +100,19 @@ module.exports = function(app, config) {
         }
       },
       function(err, results) {
-        //Filter the text user already recorded audio for
-        results.audioTextFiles = results.audioTextFiles.filter(firstArrayItem =>
-          !results.userDetails.audios.some(
-            secondArrayItem => firstArrayItem.id === secondArrayItem.audioTextId
-          )
-        );
-        return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
+        //If User has recorded audio
+        if(results.userDetails && results.userDetails.audios.length){
+          //Filter the text user already recorded audio for
+          results.audioTextFiles = results.audioTextFiles.filter(firstArrayItem =>
+            !results.userDetails.audios.some(
+              secondArrayItem => firstArrayItem.id === secondArrayItem.audioTextId
+            )
+          );
+          return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
+        }else{
+          return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
+        }
+        
       });
     }
   });
