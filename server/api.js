@@ -101,7 +101,7 @@ module.exports = function(app, config) {
       },
       function(err, results) {
         //If User has recorded audio
-        if(results.userDetails && results.userDetails.audios.length){
+        if(results.userDetails.audios && results.userDetails.audios.length){
           //Filter the text user already recorded audio for
           results.audioTextFiles = results.audioTextFiles.filter(firstArrayItem =>
             !results.userDetails.audios.some(
