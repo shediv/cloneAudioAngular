@@ -46,7 +46,8 @@ export class AuthService {
   }
 
   login() {
-    debugger;
+    this.router.navigate(['/']);
+    //debugger;
     // Auth0 authorize request
     //this._auth0.authorize();
   }
@@ -159,9 +160,6 @@ export class AuthService {
   }
 
   get tokenValid(): boolean {
-    // Check if current time is past access token's expiration
-    //return Date.now() < JSON.parse(localStorage.getItem('expires_at'));
-    
     //My code
     if(localStorage.getItem('token')){
       return true;
@@ -214,11 +212,12 @@ export class AuthService {
   }
 
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
-    const errorMsg = err.message || 'Error: Unable to complete request.';
-    if (err.message && err.message.indexOf('No JWT present') > -1) {
-      //this.auth.login();
-    }
-    return ObservableThrowError(errorMsg);
+    //debugger;
+    // const errorMsg = err.message || 'Error: Unable to complete request.';
+    // if (err.message && err.message.indexOf('No JWT present') > -1) {
+    //   //this.auth.login();
+    // }
+    return ObservableThrowError(err.error.message);
   }
 
 }

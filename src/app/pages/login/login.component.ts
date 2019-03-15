@@ -12,8 +12,18 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: 'login.component.html'
 })
 export class LoginComponent {
-  constructor(public router: Router, private api: ApiService, private auth: AuthService) {
-  }
+  loading: boolean;
+  submitting: boolean;
+  singInError: boolean;
+  singInErrorMessage: string;
+
+  constructor(public router: Router, 
+              private api: ApiService, 
+              private auth: AuthService) {}
+
+  ngOnInit() {
+    this.singInError = false;
+  }              
 
   login(event, username, password) {
     event.preventDefault();
@@ -29,7 +39,10 @@ export class LoginComponent {
         this.router.navigate(['record']);
       },
       error => {
-        console.log(error.text());
+        //debugger;
+        this.singInError = true;
+        this.singInErrorMessage = error;
+        console.log(error);
       }
     );  
   }
