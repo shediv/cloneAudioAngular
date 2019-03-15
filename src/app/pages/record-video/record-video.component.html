@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <video #video class="col"></video>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-success" (click)="startRecording()"> Record </button>
+      <button class="btn btn-danger" (click)="stopRecording()"> Stop</button>
+      <!-- <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0].id)">Upload</button> -->
+      <button class="btn btn-primary" (click)="download()"> Download</button>
+    </div>
+  </div>
+</div>

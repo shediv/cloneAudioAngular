@@ -35,6 +35,13 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">Record Audio</a>
       </li>
+      <li>
+        <a
+          *ngIf="auth.tokenValid"
+          routerLink="/recordVideo"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">Record Video</a>
+      </li>
       <!-- <li>
         <a
           routerLink="/login"

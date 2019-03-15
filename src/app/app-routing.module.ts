@@ -7,6 +7,7 @@ import { AdminGuard } from './auth/admin.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RecordRTCComponent } from './pages/record/record-rtc.component';
+import { RecordVideoComponent } from './pages/record-video/record-video.component';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 
@@ -22,6 +23,13 @@ const routes: Routes = [
   {
     path: 'record',
     component: RecordRTCComponent,
+    canActivate: [
+      AuthGuard
+    ]
+  },
+  {
+    path: 'recordVideo',
+    component: RecordVideoComponent,
     canActivate: [
       AuthGuard
     ]
