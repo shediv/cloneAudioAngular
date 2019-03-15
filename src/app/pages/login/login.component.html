@@ -1,15 +1,15 @@
-<div class="login jumbotron center-block">
+<div class="container">
   <h1>Login</h1>
   <form role="form" (submit)="login($event, username.value, password.value)">
   <div class="form-group">
-    <label for="username">Username</label>
-    <input type="email" #username class="form-control" placeholder="Username">
+    <label for="username" class="bmd-label-floating">Username</label>
+    <input type="email" #username class="form-control">
   </div>
   <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" #password class="form-control" placeholder="Password">
+    <label for="password" class="bmd-label-floating">Password</label>
+    <input type="password" #password class="form-control">
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" class="btn btn-primary btn-raised">Submit</button>
   <!-- <a [routerLink]="['/signup']">Click here to Signup</a> -->
   <p class="alert alert-danger" *ngIf="singInError">
     {{singInErrorMessage}}
