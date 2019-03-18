@@ -12,4 +12,4 @@ const audioTextFilesSchema = new Schema({
   text: { type: String, required: true }
 });
 
-module.exports = mongoose.model('AudioTextFile', audioTextFilesSchema);
+module.exports = mongoose.model('audiotextfile', audioTextFilesSchema);

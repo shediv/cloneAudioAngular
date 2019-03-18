@@ -105,7 +105,7 @@ module.exports = function(app, config) {
           //Filter the text user already recorded audio for
           results.audioTextFiles = results.audioTextFiles.filter(firstArrayItem =>
             !results.userDetails.audios.some(
-              secondArrayItem => firstArrayItem.id === secondArrayItem.audioTextId
+              secondArrayItem => firstArrayItem._id === secondArrayItem.audioTextId
             )
           );
           return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
@@ -129,28 +129,11 @@ module.exports = function(app, config) {
         return res.status(400).send({ error: 'Please upload a file' });  
       }
       file.audioTextId = parseInt(req.params.audioTextId);
+      file.createdAt = new Date();
       User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
       return res.status(200).send({message: file });
     }
   })
-
-  // GET list of public events starting in the future
-  app.get('/api/events', (req, res) => {
-    Event.find({viewPublic: true, startDatetime: { $gte: new Date() }},
-      _eventListProjection, (err, events) => {
-        let eventsArr = [];
-        if (err) {
-          return res.status(500).send({message: err.message});
-        }
-        if (events) {
-          events.forEach(event => {
-            eventsArr.push(event);
-          });
-        }
-        res.send(eventsArr);
-      }
-    );
-  });
 
   // Add a new user
   app.post('/api/user/register', (req, res) => {
