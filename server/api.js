@@ -91,7 +91,7 @@ module.exports = function(app, config) {
       async.parallel({
         userDetails: function(callbackInner) {
           User.aggregate([
-            {$match: {username: 'admin2@admin.com'}},
+            {$match: {_id: mongoose.Types.ObjectId(req.payload._id)}},
             {$unwind:"$audios"},
             {$lookup: {
                 from: "audiotextfiles", 
