@@ -1,6 +1,6 @@
 <div class="container">
     <h4>Record</h4>
-    <p>Record your voice to be able to create your audio clone Avatar. <i>Add 20 minimum recordings, you added {{userAudios.userDetails.audios.length}} so far.</i></p>
+    <p>Record your voice to be able to create your audio clone Avatar. Add 20 minimum recordings<i *ngIf="userAudios">, you added {{userAudios.userDetails.length}} so far.</i></p>
     <div class="card" style="height:10rem; margin-left: 100px; margin-right: 100px">
         <p style="margin: auto" *ngIf="userTextForAudio?.length > 0">{{userTextForAudio[0].text}}</p>
     </div>
@@ -26,12 +26,13 @@
         <div class="card-header">
           <h4>Uploaded Audios</h4>
         </div>
-        <ul class="list-group list-group-flush" *ngFor="let audioFile of userAudios.userDetails.audios">
+        <ul class="list-group list-group-flush" *ngFor="let audioFile of userAudios.userDetails">
           <li class="list-group-item">
             <audio controls>
-                <source src="{{uploadUrl}}{{audioFile.path}}" type="audio/ogg">
-                <source src="{{uploadUrl}}{{audioFile.path}}" type="audio/wav">
+                <source src="{{uploadUrl}}{{audioFile.audios.path}}" type="audio/ogg">
+                <source src="{{uploadUrl}}{{audioFile.audios.path}}" type="audio/wav">
             </audio>
+            <label>{{audioFile.audios.audioInfo.text}}</label>
           </li>
         </ul>
     </div>

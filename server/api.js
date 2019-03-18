@@ -5,6 +5,7 @@
  */
 
 const jwt = require('express-jwt');
+var mongoose = require('mongoose');
 const jwks = require('jwks-rsa');
 var passport = require('passport');
 const Event = require('./models/Event');
@@ -89,9 +90,30 @@ module.exports = function(app, config) {
 	  } else {
       async.parallel({
         userDetails: function(callbackInner) {
-          User.findOne({ _id : req.payload._id}, { audios : 1 }).lean().exec(function(errUser, userDetails){
-                callbackInner(errUser, userDetails);
-            });
+          User.aggregate([
+            {$match: {username: 'admin2@admin.com'}},
+            {$unwind:"$audios"},
+            {$lookup: {
+                from: "audiotextfiles", 
+                localField: "audios.audioTextId", 
+                foreignField: "_id", 
+                as: 'audioInfo'}},
+            {$unwind:"$audioInfo"},    
+            {$project:{
+                "_id":1,
+                "username": 1,
+                "audios":[{
+                    "filename":"$audios.filename",
+                    "path":"$audios.path",
+                    "mimetype":"$audios.mimetype",
+                    "createdAt":"$audios.createdAt",
+                    "audioInfo":"$audioInfo"            
+                }]            
+            }},
+            {$unwind:"$audios"}
+          ]).exec(function(errUser, userDetails){
+              callbackInner(errUser, userDetails);
+          });
         },
         audioTextFiles: function(callbackInner) {
           AudioTextFile.find({}).lean().exec(function(errAudText, audioTexts){                                                                                                                            
@@ -126,13 +148,30 @@ module.exports = function(app, config) {
 
       //Check if audioTextId is passed
       if(req.params.audioTextId !== undefined){
-        file.audioTextId = req.params.audioTextId;
+        file.audioTextId = mongoose.Types.ObjectId(req.params.audioTextId)
         file.createdAt = new Date();
         User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
         return res.status(200).send({message: file });
       }else{
         return res.status(400).send({ error: 'Audio Text Id is not passed' });  
       }
+    }
+  })
+
+  //Delete a recorded audio
+  app.put('/api/deleteAudio/:audioId', auth, (req, res) => {
+    if (!req.payload._id) {
+	    res.status(401).json({
+	      message : 'Not Authorised'
+	    });
+	  } else {
+      User.update({ _id: req.payload._id }, { "$pull": { "audios": { "audioTextId": mongoose.Types.ObjectId(req.params.audioId) } }}, { safe: true, multi: true }, function(errUser, userAudioData) {
+        if(errUser){
+          return res.status(400).send({ error: 'There was a error deleting audio file' });  
+        }else{
+          return res.status(200).json({ data: userAudioData });
+        }
+      });
     }
   })
 

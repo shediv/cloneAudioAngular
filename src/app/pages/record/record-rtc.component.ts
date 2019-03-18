@@ -129,7 +129,7 @@ export class RecordRTCComponent implements AfterViewInit {
           res => {
             this.userAudios =  res;
             this.userTextForAudio = this.userAudios.audioTextFiles;
-            //debugger;
+            // debugger;
             //this.userTextForAudio =  this.audioTextFiles;
           },
           err => {
