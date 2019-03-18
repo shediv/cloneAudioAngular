@@ -1,5 +1,42 @@
 <div class="container">
-  <div class="jumbotron">
+    <h4>Record</h4>
+    <p>Record your voice to be able to create your audio clone Avatar. <i>Add 20 minimum recordings, you added {{userAudios.userDetails.audios.length}} so far.</i></p>
+    <div class="card" style="height:10rem; margin-left: 100px; margin-right: 100px">
+        <p style="margin: auto" *ngIf="userTextForAudio?.length > 0">{{userTextForAudio[0].text}}</p>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 100px; margin-right: 100px">
+        <button class="btn btn-success" (click)="startRecording()"><i class="material-icons">mic</i></button>
+        <button class="btn btn-danger" (click)="stopRecording()"><i class="material-icons">stop</i></button>
+        <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0]._id)"><i class="material-icons">cloud_upload
+          </i></button>
+    </div>
+
+    <h5>Recorded Audio: </h5>
+    <audio #audio class="video"></audio>
+    <br><br><br>
+
+    <!-- <div class="card">
+      <div class="card-header">
+          <audio #audio class="video"></audio>
+      </div>
+    </div> -->
+
+
+    <div class="card" *ngIf="userAudios">
+        <div class="card-header">
+          <h4>Uploaded Audios</h4>
+        </div>
+        <ul class="list-group list-group-flush" *ngFor="let audioFile of userAudios.userDetails.audios">
+          <li class="list-group-item">
+            <audio controls>
+                <source src="{{uploadUrl}}{{audioFile.path}}" type="audio/ogg">
+                <source src="{{uploadUrl}}{{audioFile.path}}" type="audio/wav">
+            </audio>
+          </li>
+        </ul>
+    </div>
+
+  <!-- <div class="jumbotron">
     <div class="panel panel-primary">
       <div class="panel-heading">
           <strong>Record Audio By Reading Below Text</strong>
@@ -38,6 +75,6 @@
         <td>{{audioFile.filename}}</td>
       </tr>
     </table>
-  </div>
+  </div> -->
   
 </div>
