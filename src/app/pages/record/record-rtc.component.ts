@@ -90,7 +90,7 @@ export class RecordRTCComponent implements AfterViewInit {
       this.recordRTC.save('audio.wav');
     }
 
-    uploadAudio(id: number) {
+    uploadAudio(id: string) {
       this.uploading = true;
       let recordRTC = this.recordRTC;
       var recordedBlob = recordRTC.getBlob();

@@ -131,7 +131,7 @@ export class ApiService {
   }
 
   // Upload a audio file
-  uploadAudio$(file: Object, id: number): Observable<EventModel> {
+  uploadAudio$(file: Object, id: string): Observable<EventModel> {
     return this.http
       .post<EventModel>(`${ENV.BASE_API}uploadfile/${id}`, file, {
         headers: new HttpHeaders().set('Authorization', this._authToken)

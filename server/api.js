@@ -128,10 +128,16 @@ module.exports = function(app, config) {
       if(!file){
         return res.status(400).send({ error: 'Please upload a file' });  
       }
-      file.audioTextId = parseInt(req.params.audioTextId);
-      file.createdAt = new Date();
-      User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
-      return res.status(200).send({message: file });
+
+      //Check if audioTextId is passed
+      if(req.params.audioTextId !== undefined){
+        file.audioTextId = parseInt(req.params.audioTextId);
+        file.createdAt = new Date();
+        User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
+        return res.status(200).send({message: file });
+      }else{
+        return res.status(400).send({ error: 'Audio Text Id is not passed' });  
+      }
     }
   })
 

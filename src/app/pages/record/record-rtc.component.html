@@ -7,7 +7,7 @@
       <div class="panel-body">
           <button class="btn btn-success" (click)="startRecording()"> Record </button>
           <button class="btn btn-danger" (click)="stopRecording()"> Stop</button>
-          <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0].id)">Upload</button>
+          <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0]._id)">Upload</button>
           <button class="btn btn-primary" (click)="download()"> Download</button>
       </div>
       <div class="panel-body">
