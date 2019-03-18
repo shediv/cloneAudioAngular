@@ -103,16 +103,11 @@ module.exports = function(app, config) {
         //If User has recorded audio
         if(results.userDetails.audios && results.userDetails.audios.length){
           //Filter the text user already recorded audio for
-          results.audioTextFiles = results.audioTextFiles.filter(firstArrayItem =>
-            !results.userDetails.audios.some(
-              secondArrayItem => firstArrayItem._id === secondArrayItem.audioTextId
-            )
-          );
+          results.audioTextFiles = results.audioTextFiles.filter(d => !results.userDetails.audios.some(o => d._id.toString() === o.audioTextId));
           return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
         }else{
           return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
         }
-        
       });
     }
   });
@@ -131,7 +126,7 @@ module.exports = function(app, config) {
 
       //Check if audioTextId is passed
       if(req.params.audioTextId !== undefined){
-        file.audioTextId = parseInt(req.params.audioTextId);
+        file.audioTextId = req.params.audioTextId;
         file.createdAt = new Date();
         User.update({ _id : req.payload._id}, { $push: { audios: file } }).exec();
         return res.status(200).send({message: file });
