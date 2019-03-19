@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Route guards
 import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
+import { LoginCheckGuard } from './auth/login-check.guard';
 // Page components
 import { LoginComponent } from './pages/login/login.component';
 import { RecordRTCComponent } from './pages/record/record-rtc.component';
@@ -12,6 +13,9 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
+    canActivate: [
+      LoginCheckGuard
+    ]
   },
   {
     path: 'record',
@@ -38,7 +42,8 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   providers: [
     AuthGuard,
-    AdminGuard
+    AdminGuard,
+    LoginCheckGuard
   ],
   exports: [RouterModule]
 })
