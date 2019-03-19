@@ -7,7 +7,7 @@ import { mergeMap } from 'rxjs/operators';
 import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 import { ENV } from './../core/env.config';
-import { EventModel, AuthenticationModel } from '../core/models/event.model';
+import { AuthenticationModel } from '../core/models/audio.model';
 
 @Injectable()
 export class AuthService {

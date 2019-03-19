@@ -7,22 +7,16 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RecordRTCComponent } from './pages/record/record-rtc.component';
 import { RecordVideoComponent } from './pages/record-video/record-video.component';
-import { CallbackComponent } from './pages/callback/callback.component';
-import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     LoginComponent,
     RecordRTCComponent,
-    RecordVideoComponent,
-    CallbackComponent,
-    MyRsvpsComponent
+    RecordVideoComponent
   ],
   imports: [
     BrowserModule,
