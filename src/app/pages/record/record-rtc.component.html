@@ -4,11 +4,12 @@
     <div class="card" style="height:10rem; margin-left: 100px; margin-right: 100px">
         <p style="margin: auto" *ngIf="userTextForAudio?.length > 0">{{userTextForAudio[0].text}}</p>
     </div>
-    <div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 100px; margin-right: 100px">
+    <div class="btn-group" role="group" style="margin-left: 100px; margin-right: 100px">
         <button class="btn btn-success" (click)="startRecording()"><i class="material-icons">mic</i></button>
         <button class="btn btn-danger" (click)="stopRecording()"><i class="material-icons">stop</i></button>
         <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0]._id)"><i class="material-icons">cloud_upload
           </i></button>
+        <span *ngIf="loading || uploading"><img src="/assets/images/loading.svg"></span>
     </div>
 
     <h5>Recorded Audio: </h5>

@@ -34,6 +34,7 @@ export class RecordRTCComponent implements AfterViewInit {
     
     ngOnInit() {
       this.uploading = false;
+      this.loading = false;
       this.uploadUrl = `${AUTH_CONFIG.UPLOADURL}`;
       this._getUserAudios();
     }        
@@ -46,13 +47,14 @@ export class RecordRTCComponent implements AfterViewInit {
         audio.autoplay = false;
     }
 
-    startRecording() {  
+    startRecording() {
       navigator.mediaDevices
         .getUserMedia({audio:true})
         .then(this.successCallback.bind(this), this.errorCallback.bind(this));
     }
 
     successCallback(stream){
+      this.loading = true;
       this.stream = stream;
       this.recordRTC = RecordRTC(stream, {
           type: 'audio',
@@ -73,6 +75,7 @@ export class RecordRTCComponent implements AfterViewInit {
     }
 
     stopRecording() {
+      this.loading = false;
       let recordRTC = this.recordRTC;
       recordRTC.stopRecording(this.processVideo.bind(this));
       let stream = this.stream;
