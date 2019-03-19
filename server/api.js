@@ -123,9 +123,9 @@ module.exports = function(app, config) {
       },
       function(err, results) {
         //If User has recorded audio
-        if(results.userDetails.audios && results.userDetails.audios.length){
+        if(results.userDetails && results.userDetails.length){
           //Filter the text user already recorded audio for
-          results.audioTextFiles = results.audioTextFiles.filter(d => !results.userDetails.audios.some(o => d._id.toString() === o.audioTextId));
+          results.audioTextFiles = results.audioTextFiles.filter(d => !results.userDetails.some(o => d._id.toString() === o.audios.audioInfo._id.toString()));
           return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
         }else{
           return res.status(200).json({ audioTextFiles: results.audioTextFiles, userDetails: results.userDetails });
@@ -159,7 +159,7 @@ module.exports = function(app, config) {
   })
 
   //Delete a recorded audio
-  app.put('/api/deleteAudio/:audioId', auth, (req, res) => {
+  app.delete('/api/deleteAudio/:audioId', auth, (req, res) => {
     if (!req.payload._id) {
 	    res.status(401).json({
 	      message : 'Not Authorised'

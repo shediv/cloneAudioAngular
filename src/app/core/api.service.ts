@@ -141,6 +141,26 @@ export class ApiService {
       );
   }
 
+  // Upload a audio file
+  deleteAudio$(id: string): Observable<EventModel> {
+    //debugger;
+    return this.http
+      .delete(`${ENV.BASE_API}deleteAudio/${id}`, {
+        headers: new HttpHeaders().set('Authorization', this._authToken)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+
+    // return this.http
+    //   .put<AuthenticationModel[]>(`${ENV.BASE_API}deleteAudio/${id}`, {
+    //     headers: new HttpHeaders().set('Authorization', this._authToken)
+    //   })
+    //   .pipe(
+    //     catchError((error) => this._handleError(error))
+    //   );  
+  }
+
   // Sign in User
   signinUser$(data: Object): Observable<AuthenticationModel> {
     //debugger;

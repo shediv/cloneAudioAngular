@@ -26,7 +26,7 @@
         <div class="card-header">
           <h4>Uploaded Audios</h4>
         </div>
-        <ul class="list-group list-group-flush" *ngFor="let audioFile of userAudios.userDetails">
+        <!-- <ul class="list-group list-group-flush" *ngFor="let audioFile of userAudios.userDetails">
           <li class="list-group-item">
             <audio controls>
                 <source src="{{uploadUrl}}{{audioFile.audios.path}}" type="audio/ogg">
@@ -34,48 +34,24 @@
             </audio>
             <label>{{audioFile.audios.audioInfo.text}}</label>
           </li>
-        </ul>
-    </div>
+        </ul> -->
 
-  <!-- <div class="jumbotron">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-          <strong>Record Audio By Reading Below Text</strong>
-      </div>
-      <div class="panel-body">
-          <button class="btn btn-success" (click)="startRecording()"> Record </button>
-          <button class="btn btn-danger" (click)="stopRecording()"> Stop</button>
-          <button class="btn btn-primary" [disabled]="uploading" (click)="uploadAudio(userTextForAudio[0]._id)">Upload</button>
-          <button class="btn btn-primary" (click)="download()"> Download</button>
-      </div>
-      <div class="panel-body">
-          <br>
-          <p *ngIf="userTextForAudio?.length > 0">{{userTextForAudio[0].text}}</p>
-      </div>
-      <div class="panel-body">
-          <br>
-          <h5>Play recorded text</h5>
-          <audio #audio class="video"></audio>
-      </div>      
+        <div class="container" *ngFor="let audioFile of userAudios.userDetails">
+          <div class="row">
+            <div class="col-5">
+              <audio controls>
+                <source src="{{uploadUrl}}{{audioFile.audios.path}}" type="audio/ogg">
+                <source src="{{uploadUrl}}{{audioFile.audios.path}}" type="audio/wav">
+              </audio>
+            </div>
+            <div class="col-6">
+              {{audioFile.audios.audioInfo.text}}
+            </div>
+            <div class="col-1">
+              <button class="btn btn-danger" (click)="deleteAudio(audioFile.audios.audioInfo._id)"><i class="material-icons">delete_forever</i></button>
+            </div>
+          </div>
+        </div>
+
     </div>
-  </div>
-  <div class="jumbotron" *ngIf="userAudios">
-    <h3>List of Recorded Audios</h3>
-    <table class="table">
-      <tr>
-        <th>Audio Number</th>
-        <th>Audio File Name</th>
-      </tr>
-      <tr *ngFor="let audioFile of userAudios.userDetails.audios">        
-        <td>
-          <audio controls>
-            <source src="{{uploadUrl}}{{audioFile.path}}" type="audio/ogg">
-            <source src="{{uploadUrl}}{{audioFile.path}}" type="audio/wav">
-          </audio>
-        </td>
-        <td>{{audioFile.filename}}</td>
-      </tr>
-    </table>
-  </div> -->
-  
 </div>

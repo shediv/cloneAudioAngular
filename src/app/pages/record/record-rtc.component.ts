@@ -15,6 +15,7 @@ export class RecordRTCComponent implements AfterViewInit {
     loading: boolean;
     submitting: boolean;
     uploading: boolean;
+    deleting: boolean;
     error: boolean;
     userData: any;
     userAudios: any;    
@@ -45,7 +46,7 @@ export class RecordRTCComponent implements AfterViewInit {
         audio.autoplay = false;
     }
 
-    startRecording() {   
+    startRecording() {  
       navigator.mediaDevices
         .getUserMedia({audio:true})
         .then(this.successCallback.bind(this), this.errorCallback.bind(this));
@@ -102,6 +103,22 @@ export class RecordRTCComponent implements AfterViewInit {
       .subscribe(
         data => this._handleSubmitSuccess(data),
         err => this._handleSubmitError(err)
+      );
+    }
+
+    deleteAudio(id: string) {
+      this.deleting = true;
+      this.api
+      .deleteAudio$(id)
+      .subscribe(
+        res => {
+          this.deleting =  false;
+          alert('Audio file has been deleted..!')
+          this._getUserAudios();
+        },
+        err => {
+          console.error(err);
+        }
       );
     }
 
