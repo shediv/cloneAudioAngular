@@ -21,11 +21,11 @@
       </div>
     </div> -->
 
-
+    <h4>Uploaded Audios</h4>
     <div class="card" *ngIf="userAudios">
-        <div class="card-header">
+        <!-- <div class="card-header">
           <h4>Uploaded Audios</h4>
-        </div>
+        </div> -->
         <!-- <ul class="list-group list-group-flush" *ngFor="let audioFile of userAudios.userDetails">
           <li class="list-group-item">
             <audio controls>
@@ -37,7 +37,7 @@
         </ul> -->
 
         <div class="container" *ngFor="let audioFile of userAudios.userDetails">
-          <div class="row">
+          <div class="row card-header">
             <div class="col-5">
               <audio controls>
                 <source src="{{uploadUrl}}{{audioFile.audios.path}}" type="audio/ogg">
