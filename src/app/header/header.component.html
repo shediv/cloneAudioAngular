@@ -36,6 +36,13 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">Record Video</a>
       </li>
+      <li>
+        <a
+          *ngIf="auth.tokenValid"
+          routerLink="/recordText"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">Record Text</a>
+      </li>
     </ul>
   </nav>
 </header>

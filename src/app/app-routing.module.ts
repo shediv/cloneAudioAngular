@@ -8,6 +8,7 @@ import { LoginCheckGuard } from './auth/login-check.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { RecordRTCComponent } from './pages/record/record-rtc.component';
 import { RecordVideoComponent } from './pages/record-video/record-video.component';
+import { RecordTextComponent } from './pages/record-text/record-text.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,13 @@ const routes: Routes = [
   {
     path: 'recordVideo',
     component: RecordVideoComponent,
+    canActivate: [
+      AuthGuard
+    ]
+  },
+  {
+    path: 'recordText',
+    component: RecordTextComponent,
     canActivate: [
       AuthGuard
     ]

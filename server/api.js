@@ -223,4 +223,20 @@ module.exports = function(app, config) {
 
 	  })(req, res);
   });
+
+  // Upload a text for user
+  app.post('/api/user/uploadText', auth, (req, res) => {
+    if (!req.payload._id) {
+	    res.status(401).json({
+	      message : 'Not Authorised'
+	    });
+	  } else {
+      User.update({ _id : req.payload._id}, { $push: { texts: req.body.userText } }, function(errUpdateText, userUpdatedText){
+        if(errUpdateText) return res.status(200).send({ errUpdateText: errUpdateText });
+        return res.status(200).send({userUpdatedText: userUpdatedText });
+      })
+
+    }
+  })
+
 };

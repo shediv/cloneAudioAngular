@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RecordRTCComponent } from './pages/record/record-rtc.component';
 import { RecordVideoComponent } from './pages/record-video/record-video.component';
+import { RecordTextComponent } from './pages/record-text/record-text.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RecordRTCComponent,
-    RecordVideoComponent
+    RecordVideoComponent,
+    RecordTextComponent
   ],
   imports: [
     BrowserModule,

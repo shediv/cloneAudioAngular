@@ -18,7 +18,8 @@ const userSchema = new Schema({
   isActive: { type: Boolean},
   hash: { type: String, required: true },
   salt: { type: String, required: true },
-  audios: { type: Array }
+  audios: { type: Array },
+  texts: { type: Array }
 });
 
 userSchema.methods.setPassword = function(password) {  

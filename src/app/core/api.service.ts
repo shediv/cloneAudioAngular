@@ -75,6 +75,17 @@ export class ApiService {
       );
   }
 
+  // Upload a text of User
+  uploadText$(text: string): Observable<AudioModel> {
+    return this.http
+      .post<AudioModel>(`${ENV.BASE_API}user/uploadText`, text, {
+        headers: new HttpHeaders().set('Authorization', this._authToken)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || 'Error: Unable to complete request.';
     if (err.message && err.message.indexOf('No JWT present') > -1) {
