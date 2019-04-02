@@ -76,9 +76,10 @@ export class ApiService {
   }
 
   // Upload a text of User
-  uploadText$(text: string): Observable<AudioModel> {
+  uploadText$(userText: string): Observable<AudioModel> {
+    debugger;
     return this.http
-      .post<AudioModel>(`${ENV.BASE_API}user/uploadText`, text, {
+      .post<AudioModel>(`${ENV.BASE_API}user/uploadText`, { userText: userText }, {
         headers: new HttpHeaders().set('Authorization', this._authToken)
       })
       .pipe(

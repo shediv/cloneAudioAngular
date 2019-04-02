@@ -8,10 +8,12 @@ const jwt = require('express-jwt');
 var mongoose = require('mongoose');
 const jwks = require('jwks-rsa');
 var passport = require('passport');
+var nodemailer = require('nodemailer');
 const Event = require('./models/Event');
 const Rsvp = require('./models/Rsvp');
 const User = require('./models/User');
 const AudioTextFile = require('./models/audioTextFiles');
+const UserTextAudio = require('./models/userTextAudio');
 var async = require('async');
 
 // [SH] Bring in the Passport config after model is defined
@@ -118,7 +120,7 @@ module.exports = function(app, config) {
         audioTextFiles: function(callbackInner) {
           AudioTextFile.find({}).lean().exec(function(errAudText, audioTexts){                                                                                                                            
                 callbackInner(errAudText, audioTexts);
-            });
+          });
         }
       },
       function(err, results) {
@@ -231,12 +233,65 @@ module.exports = function(app, config) {
 	      message : 'Not Authorised'
 	    });
 	  } else {
-      User.update({ _id : req.payload._id}, { $push: { texts: req.body.userText } }, function(errUpdateText, userUpdatedText){
-        if(errUpdateText) return res.status(200).send({ errUpdateText: errUpdateText });
-        return res.status(200).send({userUpdatedText: userUpdatedText });
-      })
-
+      var newUserText = new UserTextAudio();
+      newUserText.text = req.body.userText;
+      newUserText.userId = req.payload._id;
+      newUserText.audioUrl = '';
+      newUserText.isAudioReady = false;
+      newUserText.textSubmittedForProcessing = true;
+			newUserText.createdAt = new Date();
+      newUserText.save((err) => {
+        if (err) {
+          return res.status(500).send({message: err});
+        }
+        res.send(newUserText);
+      });
     }
+  })
+
+  //Upload audio for text from user
+  app.post('/api/user/uploadTextAudio', auth, (req, res, next) => {
+    if (!req.payload._id) {
+	    res.status(401).json({
+	      message : 'Not Authorised'
+	    });
+	  } else {
+      var query   = { userId : req.payload._id, _id: req.body.textId }; 
+      var update  = { $set: { audioUrl: req.body.audioUrl, isAudioReady: true, updatedAt: new Date() } }; 
+      var options = { new: true }; 
+      UserTextAudio.findOneAndUpdate(query, update, options, function(err, doc){ 
+        if(err){
+          return res.status(400).send({ error: 'User had no text recorded' });  
+        }
+        return res.status(200).send({userTextAudio: doc }); 
+      });
+    }
+  })
+
+  //Send Mail
+  app.get('/api/user/mail', function(req, res){
+    UserTextAudio.find({ })
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+             user: config.userNameGmail,
+             pass: config.passwordGmail
+         }
+     });
+  
+    const mailOptions = {
+      from: config.sendMailFrom, // sender address
+      to: 'pebi@5-mail.info', // list of receivers
+      subject: 'Subject of your email', // Subject line
+      html: '<p>Your html here</p>'// plain text body
+    };
+    
+    transporter.sendMail(mailOptions, function (err, info) {
+      if(err)
+        console.log(err)
+      else
+        console.log(info);
+    });
   })
 
 };

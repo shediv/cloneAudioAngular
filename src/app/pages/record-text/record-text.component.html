@@ -1,12 +1,12 @@
 <div class="container">
   <div class="form-group">
     <label for="userText" class="bmd-label-floating">Enter User Text</label>
-    <textarea class="form-control" id="userText" rows="3"></textarea>
+    <textarea class="form-control" rows="3" #userTextInput></textarea>
   </div>
 
   <div class="row">
     <div class="col-xs-12">
-      <button class="btn btn-success" (click)="uploadText()"> Submit </button>
+      <button class="btn btn-primary btn-raised" (click)="uploadText(userTextInput.value)"> Submit </button>
     </div>
   </div>
 </div>
